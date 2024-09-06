@@ -7,8 +7,7 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import useCrud from "../../hooks/useCrud";
-import React, { useEffect } from "react";
+import React from "react";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { MEDIA_URL } from "../../config";
@@ -21,24 +20,15 @@ interface Server {
   icon: string;
 }
 
+interface ServerChannelsProps {
+  data: Server[];
+}
+
 type Props = {
   open: boolean;
 };
 
-const PopularChannels: React.FC<Props> = ({ open }) => {
-  const { dataCRUD, error, isLoading, fetchData } = useCrud<Server>(
-    [],
-    "/server/select/"
-  );
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    console.log(dataCRUD);
-  }, [dataCRUD]);
-
+const UserServers: React.FC<Props & ServerChannelsProps> = ({ open, data }) => {
   return (
     <>
       <Box
@@ -51,11 +41,11 @@ const PopularChannels: React.FC<Props> = ({ open }) => {
         }}
       >
         <Typography sx={{ display: open ? "block" : "none" }}>
-          Popular
+          Servers
         </Typography>
       </Box>
       <List>
-        {dataCRUD.map((item) => (
+        {data.map((item) => (
           <ListItem
             key={item.id}
             disablePadding
@@ -67,8 +57,8 @@ const PopularChannels: React.FC<Props> = ({ open }) => {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <ListItemButton sx={{ minHeight: 0 }}>
-                <ListItemIcon sx={{ minHeight: 0, justifyContent: "center" }}>
-                  <ListItemAvatar sx={{ minHeight: "50px" }}>
+                <ListItemIcon sx={{ minWidth: 0, justifyContent: "center" }}>
+                  <ListItemAvatar sx={{ minWidth: "50px" }}>
                     <Avatar
                       alt="Server Icon"
                       src={`${MEDIA_URL}${item.icon}`}
@@ -120,4 +110,4 @@ const PopularChannels: React.FC<Props> = ({ open }) => {
   );
 };
 
-export default PopularChannels;
+export default UserServers;

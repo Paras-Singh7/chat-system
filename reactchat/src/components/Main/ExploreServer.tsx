@@ -1,7 +1,6 @@
 import {
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
   Box,
@@ -51,7 +50,6 @@ const ExploreServer = () => {
               display: {
                 sm: "block",
                 fontWeight: 700,
-                fontSize: "48px",
                 letterSpacing: "-2px",
                 textTransform: "capitalize",
               },
@@ -71,7 +69,6 @@ const ExploreServer = () => {
               display: {
                 sm: "block",
                 fontWeight: 700,
-                fontSize: "48px",
                 letterSpacing: "-1px",
               },
               textAlign: { xs: "center", sm: "left" },
@@ -88,7 +85,7 @@ const ExploreServer = () => {
         >
           Recommended Channels
         </Typography>
-        <Grid container spacing={{ xs: 2, sm: 3 }}>
+        <Grid container spacing={{ xs: 0, sm: 2 }}>
           {dataCRUD.map((item) => (
             <Grid item key={item.id} xs={12} sm={6} md={6} lg={3}>
               <Card

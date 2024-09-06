@@ -63,7 +63,7 @@ const ExploreCategories = () => {
             >
               <ListItemButton sx={{ minHeight: 48 }}>
                 <ListItemIcon sx={{ minWidth: 0, justifyContent: "center" }}>
-                  <ListItemAvatar sx={{ minHeight: "0px" }}>
+                  <ListItemAvatar sx={{ minWidth: "0px" }}>
                     <img
                       alt="server Icon"
                       src={`${MEDIA_URL}${item.icon}`}

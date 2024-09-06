@@ -2,14 +2,14 @@ import useAxiosWithInterceptor from "../helpers/jwtinterceptor";
 import { BASE_URL } from "../config";
 import { useState } from "react";
 
-interface IsueCrud<T> {
+interface IuseCrud<T> {
   dataCRUD: T[];
   fetchData: () => Promise<void>;
   error: Error | null;
   isLoading: boolean;
 }
 
-const useCrud = <T>(initialData: T[], apiURL: string): IsueCrud<T> => {
+const useCrud = <T>(initialData: T[], apiURL: string): IuseCrud<T> => {
   const jwtAxios = useAxiosWithInterceptor();
   const [dataCRUD, setDataCRUD] = useState<T[]>(initialData);
   const [error, setError] = useState<Error | null>(null);
