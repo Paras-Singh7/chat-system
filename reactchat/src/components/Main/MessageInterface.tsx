@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import useWebSocket from "react-use-websocket";
 import useCrud from "../../hooks/useCrud";
 import { ServerD } from "../../@types/server.d";
 import {
@@ -16,6 +15,7 @@ import {
 import MessageInterfaceChannels from "./MessageInterfaceChannels";
 import { useTheme } from "@mui/material/styles";
 import Scroll from "./Scroll";
+import useChatWebSocket from "../../services/chatService";
 
 interface SendMessageData {
   type: string;
@@ -36,42 +36,14 @@ interface Message {
 const MessageInterface = (props: ServerChannelProps) => {
   const { data } = props;
   const theme = useTheme();
-  const [newMessage, setNewMessage] = useState<Message[]>([]);
-  const [message, setMessage] = useState("");
   const { serverId, channelId } = useParams();
-  const serverName = data?.[0]?.name ?? "Server";
-  const { fetchData } = useCrud<ServerD>(
-    [],
-    `/messages/?channel_id=${channelId}`
+
+  const { newMessage, message, setMessage, sendJsonMessage } = useChatWebSocket(
+    channelId || "",
+    serverId || ""
   );
 
-  const socketUrl = channelId
-    ? `ws://127.0.0.1:8000/${serverId}/${channelId}`
-    : null;
-
-  const { sendJsonMessage } = useWebSocket(socketUrl, {
-    onOpen: async () => {
-      try {
-        const data = await fetchData();
-        setNewMessage([]);
-        setNewMessage(Array.isArray(data) ? data : []);
-        console.log("Connected!!!");
-      } catch (error: any) {
-        console.log(error);
-      }
-    },
-    onClose: () => {
-      console.log("Closed!");
-    },
-    onError: () => {
-      console.log("Error!");
-    },
-    onMessage: (msg) => {
-      const data = JSON.parse(msg.data);
-      setNewMessage((prev_msg) => [...prev_msg, data.new_message]);
-      setMessage("");
-    },
-  });
+  const serverName = data?.[0]?.name ?? "Server";
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
